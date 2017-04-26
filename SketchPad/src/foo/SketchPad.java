@@ -1,16 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package foo;
+
+import java.awt.*;
+import javax.swing.*;
 
 /**
  *
  * @author grant
  */
 public class SketchPad extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form SketchPad
      */
@@ -18,7 +21,7 @@ public class SketchPad extends javax.swing.JFrame {
         initComponents();
         getContentPane().setBackground( new java.awt.Color( 153, 255, 0 ) );
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,42 +31,84 @@ public class SketchPad extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        sketchPanel1 = new foo.SketchPanel();
+        mySketchPanel = new foo.SketchPanel();
+        setPenColorButton = new javax.swing.JButton();
+        clearScreenButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 500));
 
-        javax.swing.GroupLayout sketchPanel1Layout = new javax.swing.GroupLayout(sketchPanel1);
-        sketchPanel1.setLayout(sketchPanel1Layout);
-        sketchPanel1Layout.setHorizontalGroup(
-            sketchPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout mySketchPanelLayout = new javax.swing.GroupLayout(mySketchPanel);
+        mySketchPanel.setLayout(mySketchPanelLayout);
+        mySketchPanelLayout.setHorizontalGroup(
+            mySketchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
-        sketchPanel1Layout.setVerticalGroup(
-            sketchPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        mySketchPanelLayout.setVerticalGroup(
+            mySketchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
+
+        setPenColorButton.setText("Set Pen Color");
+        setPenColorButton.setToolTipText("Set the pn color of your choice");
+        setPenColorButton.setFocusPainted(false);
+        setPenColorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setPenColorButtonActionPerformed(evt);
+            }
+        });
+
+        clearScreenButton.setText("Clear");
+        clearScreenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearScreenButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(sketchPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(setPenColorButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(clearScreenButton)))
                 .addContainerGap(298, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sketchPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(setPenColorButton)
+                    .addComponent(clearScreenButton))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void setPenColorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPenColorButtonActionPerformed
+        Color selectedColor = JColorChooser.showDialog(
+                mySketchPanel, "Choose pen color", Color.BLACK );
+        if ( selectedColor != null )
+            mySketchPanel.setPenColor( selectedColor );
+        
+    }//GEN-LAST:event_setPenColorButtonActionPerformed
 
+    private void clearScreenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearScreenButtonActionPerformed
+        mySketchPanel.clear();
+        repaint();
+    }//GEN-LAST:event_clearScreenButtonActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -71,8 +116,8 @@ public class SketchPad extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -90,7 +135,7 @@ public class SketchPad extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(SketchPad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -98,8 +143,10 @@ public class SketchPad extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private foo.SketchPanel sketchPanel1;
+    private javax.swing.JButton clearScreenButton;
+    private foo.SketchPanel mySketchPanel;
+    private javax.swing.JButton setPenColorButton;
     // End of variables declaration//GEN-END:variables
 }

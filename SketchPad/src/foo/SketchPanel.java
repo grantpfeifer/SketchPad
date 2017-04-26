@@ -15,6 +15,7 @@ import java.awt.*;
  */
 public class SketchPanel extends javax.swing.JPanel {
 private java.util.List itemsToDraw = new ArrayList();
+private Color penColor = Color.BLACK;
     /**
      * Creates new form SketchPanel
      */
@@ -27,18 +28,24 @@ private java.util.List itemsToDraw = new ArrayList();
     }
 
     public void paintComponent( Graphics g ) {
-        super.paintComponent( g );
-        g.setColor( Color.BLACK );
-        Iterator thisPoint = itemsToDraw.iterator();
-        Point last = null;
-        while ( thisPoint.hasNext() ) {
-            Point p = (Point) thisPoint.next();
-            if ( last != null )
-                g.drawLine( last.x, last.y, p.x, p.y );
-            last = p;
+super.paintComponent( g );
+        
+      Iterator setOfItems = itemsToDraw.iterator();
+        
+      while ( setOfItems.hasNext() ) {
+         DrawItem thisItem = (DrawItem) setOfItems.next(); // get the item
+         g.setColor( thisItem.getItemColor() );            // set the pen color to draw
+         thisItem.draw( g );                             // use polymorphism to render it
         }
     }
 
+public void setPenColor( Color c ){
+    this.penColor = c;
+}
+    
+public void clear(){
+    itemsToDraw.clear();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,6 +63,11 @@ private java.util.List itemsToDraw = new ArrayList();
                 formMouseDragged(evt);
             }
         });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -70,10 +82,14 @@ private java.util.List itemsToDraw = new ArrayList();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        Point p = new Point( evt.getX(), evt.getY() );
-        itemsToDraw.add( p );
+        DrawItem currentItem = (DrawItem) itemsToDraw.get( itemsToDraw.size() - 1 );
+        currentItem.add( evt.getPoint() );
         repaint();
     }//GEN-LAST:event_formMouseDragged
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        itemsToDraw.add( new Freehand( evt.getPoint(), penColor ) );
+    }//GEN-LAST:event_formMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
