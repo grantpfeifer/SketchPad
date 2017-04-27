@@ -3,7 +3,7 @@ import java.awt.*;
 
 /**
  *
- * @author jestell
+ * @author g-pfeifer
  */
 public class Line extends DrawItem {
     

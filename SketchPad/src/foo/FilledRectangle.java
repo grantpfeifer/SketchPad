@@ -9,7 +9,7 @@ public class FilledRectangle extends DrawItem {
     
     private Point currentPoint;
     
-    /** Creates a new instance of OpenRectangle */
+    /** Creates a new instance of FilledRectangle */
     public FilledRectangle( Point thisPoint, Color thisColor ) {
         super( thisPoint, thisColor );
         currentPoint = thisPoint;
