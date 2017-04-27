@@ -13,7 +13,7 @@ import javax.swing.*;
  * @author grant
  */
 public class SketchPad extends javax.swing.JFrame {
-    
+          private DefaultListModel myListModel = new DefaultListModel();
     /**
      * Creates new form SketchPad
      */
@@ -28,6 +28,9 @@ public class SketchPad extends javax.swing.JFrame {
         drawingElementsGroup.add(circleRadio);
         drawingElementsGroup.add(starRadio);
         freehandRadio.isSelected();
+        myItemList.setModel( myListModel );
+        mySketchPanel.setJList(myItemList, myListModel );
+
     }
     
     /**
@@ -49,6 +52,8 @@ public class SketchPad extends javax.swing.JFrame {
         closedRectangleRadio = new javax.swing.JRadioButton();
         circleRadio = new javax.swing.JRadioButton();
         starRadio = new javax.swing.JRadioButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        myItemList = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 500));
@@ -111,8 +116,18 @@ public class SketchPad extends javax.swing.JFrame {
         });
 
         circleRadio.setText("Cirle");
+        circleRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                circleRadioActionPerformed(evt);
+            }
+        });
 
         starRadio.setText("Star");
+        starRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                starRadioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout itemPickerLayout = new javax.swing.GroupLayout(itemPicker);
         itemPicker.setLayout(itemPickerLayout);
@@ -147,6 +162,13 @@ public class SketchPad extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
+        myItemList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(myItemList);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,15 +177,17 @@ public class SketchPad extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)
-                        .addComponent(itemPicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(setPenColorButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(clearScreenButton)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(itemPicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,15 +195,17 @@ public class SketchPad extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(setPenColorButton)
+                            .addComponent(clearScreenButton)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(itemPicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(setPenColorButton)
-                    .addComponent(clearScreenButton))
-                .addContainerGap(60, Short.MAX_VALUE))
+                        .addGap(44, 44, 44)
+                        .addComponent(itemPicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -213,6 +239,14 @@ public class SketchPad extends javax.swing.JFrame {
     private void closedRectangleRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closedRectangleRadioActionPerformed
         mySketchPanel.setItemType( DrawItem.FILLED_RECTANGLE );
     }//GEN-LAST:event_closedRectangleRadioActionPerformed
+
+    private void circleRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circleRadioActionPerformed
+        mySketchPanel.setItemType( DrawItem.CIRCLE );
+    }//GEN-LAST:event_circleRadioActionPerformed
+
+    private void starRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_starRadioActionPerformed
+        mySketchPanel.setItemType( DrawItem.STAR );
+    }//GEN-LAST:event_starRadioActionPerformed
     
     /**
      * @param args the command line arguments
@@ -256,7 +290,9 @@ public class SketchPad extends javax.swing.JFrame {
     private javax.swing.JRadioButton filledRectangleRadio;
     private javax.swing.JRadioButton freehandRadio;
     private javax.swing.JPanel itemPicker;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton lineRadio;
+    private javax.swing.JList<String> myItemList;
     private foo.SketchPanel mySketchPanel;
     private javax.swing.JButton setPenColorButton;
     private javax.swing.JRadioButton starRadio;

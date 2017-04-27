@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package foo;
 
 import java.util.*;
@@ -14,9 +14,12 @@ import java.awt.*;
  * @author grant
  */
 public class SketchPanel extends javax.swing.JPanel {
-private java.util.List  itemsToDraw = new ArrayList();
-private Color           penColor = Color.BLACK;
-private int             itemType = DrawItem.FREEHAND;
+    private java.util.List  itemsToDraw = new ArrayList();
+    private Color           penColor = Color.BLACK;
+    private int             itemType = DrawItem.FREEHAND;
+    private JList renderedItems = null;
+    private DefaultListModel myList = null;
+    
     /**
      * Creates new form SketchPanel
      */
@@ -25,37 +28,47 @@ private int             itemType = DrawItem.FREEHAND;
         setBackground( java.awt.Color.white );
         initComponents();
         this.setCursor( new Cursor( Cursor.CROSSHAIR_CURSOR ) );
-
+        
     }
-
+    
+    public void setJList( JList cb, DefaultListModel lm ){
+        renderedItems = cb;
+        myList = lm;
+    }
+    
+    
     public void paintComponent( Graphics g ) {
-super.paintComponent( g );
+        super.paintComponent( g );
         
-      Iterator setOfItems = itemsToDraw.iterator();
+        Iterator setOfItems = itemsToDraw.iterator();
         
-      while ( setOfItems.hasNext() ) {
-         DrawItem thisItem = (DrawItem) setOfItems.next(); // get the item
-         g.setColor( thisItem.getItemColor() );            // set the pen color to draw
-         thisItem.draw( g );                             // use polymorphism to render it
+        while ( setOfItems.hasNext() ) {
+            DrawItem thisItem = (DrawItem) setOfItems.next(); // get the item
+            g.setColor( thisItem.getItemColor() );            // set the pen color to draw
+            thisItem.draw( g );                             // use polymorphism to render it
         }
     }
-
-public void setPenColor( Color c ){
-    this.penColor = c;
-}
     
-public void clear(){
-    itemsToDraw.clear();
-}
-
-public int getItemType(){
+    public void setPenColor( Color c ){
+        this.penColor = c;
+    }
+    
+    public void clear(){
+        itemsToDraw.clear();
+        if ( renderedItems != null ) {
+            myList.clear();
+        }
+        repaint();
+    }
+    
+    public int getItemType(){
         return itemType;
     }
     
     public void setItemType( int type ){
         this.itemType = type;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,6 +89,9 @@ public int getItemType(){
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                formMouseReleased(evt);
+            }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -89,39 +105,48 @@ public int getItemType(){
             .addGap(0, 400, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
         DrawItem currentItem = (DrawItem) itemsToDraw.get( itemsToDraw.size() - 1 );
         currentItem.add( evt.getPoint() );
         repaint();
         
     }//GEN-LAST:event_formMouseDragged
-
+    
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         itemsToDraw.add( new Freehand( evt.getPoint(), penColor ) );
         switch ( getItemType() ) {
-          case DrawItem.FREEHAND:
-              itemsToDraw.add( new Freehand( evt.getPoint(), penColor ) );
-              break;
-//          case DrawItem.CIRCLE:
-//              itemsToDraw.add( new Circle( evt.getPoint(), penColor ) );
-//              break;
-          case DrawItem.FILLED_RECTANGLE:
-              itemsToDraw.add( new FilledRectangle( evt.getPoint(), penColor ) );
-              break;
-          case DrawItem.LINE:
-              itemsToDraw.add( new Line( evt.getPoint(), penColor ) );
-              break;
-          case DrawItem.OPEN_RECTANGLE:
-              itemsToDraw.add( new OpenRectangle( evt.getPoint(), penColor ) );
-              break;
-//          case DrawItem.STAR:
-//              itemsToDraw.add( new Star( evt.getPoint(), penColor ) );
-//              break;
+            case DrawItem.FREEHAND:
+                itemsToDraw.add( new Freehand( evt.getPoint(), penColor ) );
+                break;
+            case DrawItem.CIRCLE:
+                itemsToDraw.add( new Circle( evt.getPoint(), penColor ) );
+                break;
+            case DrawItem.FILLED_RECTANGLE:
+                itemsToDraw.add( new FilledRectangle( evt.getPoint(), penColor ) );
+                break;
+            case DrawItem.LINE:
+                itemsToDraw.add( new Line( evt.getPoint(), penColor ) );
+                break;
+            case DrawItem.OPEN_RECTANGLE:
+                itemsToDraw.add( new OpenRectangle( evt.getPoint(), penColor ) );
+                break;
+            case DrawItem.STAR:
+                itemsToDraw.add( new Star( evt.getPoint(), penColor ) );
+                break;
         }
     }//GEN-LAST:event_formMousePressed
-
-
+    
+    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
+        if ( renderedItems != null ) {
+            DrawItem justDrawn = (DrawItem) itemsToDraw.get( itemsToDraw.size() - 1 );
+            myList.addElement( justDrawn.toString() );
+            repaint();
+        }
+        
+    }//GEN-LAST:event_formMouseReleased
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

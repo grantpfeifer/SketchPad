@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package foo;
 
 import java.awt.Color;
@@ -25,10 +25,19 @@ public abstract class DrawItem {
     
     private Point   itemLocation;
     private Color   itemColor;
-    
+            
     public DrawItem( Point thisLocation, Color thisColor ){
         this.itemColor = thisColor;
         this.itemLocation = thisLocation;
+    }
+    
+    public String toString() {
+        int rgb = getItemColor().getRGB() & 0x00FFFFFF;                     // line 2
+        StringBuffer hex = new StringBuffer( Integer.toHexString( rgb ) );  // line 3
+        while ( hex.length() < 6 )                                          // line 4
+            hex.insert( 0, '0' );                                            // line 5
+        return "<html><font color=\"#" + hex.toString() + "\">"
+                + this.getClass().getName().substring(4) + "</font></html>";
     }
     
     public Point getItemLocation(){
