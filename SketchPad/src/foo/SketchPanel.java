@@ -14,8 +14,9 @@ import java.awt.*;
  * @author grant
  */
 public class SketchPanel extends javax.swing.JPanel {
-private java.util.List itemsToDraw = new ArrayList();
-private Color penColor = Color.BLACK;
+private java.util.List  itemsToDraw = new ArrayList();
+private Color           penColor = Color.BLACK;
+private int             itemType = DrawItem.FREEHAND;
     /**
      * Creates new form SketchPanel
      */
@@ -46,6 +47,14 @@ public void setPenColor( Color c ){
 public void clear(){
     itemsToDraw.clear();
 }
+
+public int getItemType(){
+        return itemType;
+    }
+    
+    public void setItemType( int type ){
+        this.itemType = type;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,10 +94,31 @@ public void clear(){
         DrawItem currentItem = (DrawItem) itemsToDraw.get( itemsToDraw.size() - 1 );
         currentItem.add( evt.getPoint() );
         repaint();
+        
     }//GEN-LAST:event_formMouseDragged
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         itemsToDraw.add( new Freehand( evt.getPoint(), penColor ) );
+        switch ( getItemType() ) {
+          case DrawItem.FREEHAND:
+              itemsToDraw.add( new Freehand( evt.getPoint(), penColor ) );
+              break;
+//          case DrawItem.CIRCLE:
+//              itemsToDraw.add( new Circle( evt.getPoint(), penColor ) );
+//              break;
+          case DrawItem.FILLED_RECTANGLE:
+              itemsToDraw.add( new FilledRectangle( evt.getPoint(), penColor ) );
+              break;
+          case DrawItem.LINE:
+              itemsToDraw.add( new Line( evt.getPoint(), penColor ) );
+              break;
+          case DrawItem.OPEN_RECTANGLE:
+              itemsToDraw.add( new OpenRectangle( evt.getPoint(), penColor ) );
+              break;
+//          case DrawItem.STAR:
+//              itemsToDraw.add( new Star( evt.getPoint(), penColor ) );
+//              break;
+        }
     }//GEN-LAST:event_formMousePressed
 
 

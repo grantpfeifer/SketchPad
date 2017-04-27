@@ -20,6 +20,14 @@ public class SketchPad extends javax.swing.JFrame {
     public SketchPad() {
         initComponents();
         getContentPane().setBackground( new java.awt.Color( 153, 255, 0 ) );
+        ButtonGroup drawingElementsGroup  = new ButtonGroup();
+        drawingElementsGroup.add(freehandRadio);
+        drawingElementsGroup.add(lineRadio);
+        drawingElementsGroup.add(filledRectangleRadio);
+        drawingElementsGroup.add(closedRectangleRadio);
+        drawingElementsGroup.add(circleRadio);
+        drawingElementsGroup.add(starRadio);
+        freehandRadio.isSelected();
     }
     
     /**
@@ -34,6 +42,13 @@ public class SketchPad extends javax.swing.JFrame {
         mySketchPanel = new foo.SketchPanel();
         setPenColorButton = new javax.swing.JButton();
         clearScreenButton = new javax.swing.JButton();
+        itemPicker = new javax.swing.JPanel();
+        freehandRadio = new javax.swing.JRadioButton();
+        lineRadio = new javax.swing.JRadioButton();
+        filledRectangleRadio = new javax.swing.JRadioButton();
+        closedRectangleRadio = new javax.swing.JRadioButton();
+        circleRadio = new javax.swing.JRadioButton();
+        starRadio = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 500));
@@ -65,6 +80,73 @@ public class SketchPad extends javax.swing.JFrame {
             }
         });
 
+        itemPicker.setBorder(javax.swing.BorderFactory.createTitledBorder("Drawing Elements"));
+
+        freehandRadio.setText("Freehand");
+        freehandRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                freehandRadioActionPerformed(evt);
+            }
+        });
+
+        lineRadio.setText("Line");
+        lineRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lineRadioActionPerformed(evt);
+            }
+        });
+
+        filledRectangleRadio.setText("Open Rectangle");
+        filledRectangleRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filledRectangleRadioActionPerformed(evt);
+            }
+        });
+
+        closedRectangleRadio.setText("Filled Rectangle");
+        closedRectangleRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closedRectangleRadioActionPerformed(evt);
+            }
+        });
+
+        circleRadio.setText("Cirle");
+
+        starRadio.setText("Star");
+
+        javax.swing.GroupLayout itemPickerLayout = new javax.swing.GroupLayout(itemPicker);
+        itemPicker.setLayout(itemPickerLayout);
+        itemPickerLayout.setHorizontalGroup(
+            itemPickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemPickerLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(itemPickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(starRadio)
+                    .addComponent(circleRadio)
+                    .addComponent(closedRectangleRadio)
+                    .addComponent(filledRectangleRadio)
+                    .addComponent(lineRadio)
+                    .addComponent(freehandRadio))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+        itemPickerLayout.setVerticalGroup(
+            itemPickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemPickerLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(freehandRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lineRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(filledRectangleRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(closedRectangleRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(circleRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(starRadio)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,19 +155,26 @@ public class SketchPad extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(itemPicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(setPenColorButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(clearScreenButton)))
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(mySketchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(itemPicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(setPenColorButton)
@@ -108,6 +197,22 @@ public class SketchPad extends javax.swing.JFrame {
         mySketchPanel.clear();
         repaint();
     }//GEN-LAST:event_clearScreenButtonActionPerformed
+
+    private void lineRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineRadioActionPerformed
+        mySketchPanel.setItemType( DrawItem.LINE );
+    }//GEN-LAST:event_lineRadioActionPerformed
+
+    private void freehandRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_freehandRadioActionPerformed
+        mySketchPanel.setItemType( DrawItem.FREEHAND );
+    }//GEN-LAST:event_freehandRadioActionPerformed
+
+    private void filledRectangleRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filledRectangleRadioActionPerformed
+        mySketchPanel.setItemType( DrawItem.OPEN_RECTANGLE );
+    }//GEN-LAST:event_filledRectangleRadioActionPerformed
+
+    private void closedRectangleRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closedRectangleRadioActionPerformed
+        mySketchPanel.setItemType( DrawItem.FILLED_RECTANGLE );
+    }//GEN-LAST:event_closedRectangleRadioActionPerformed
     
     /**
      * @param args the command line arguments
@@ -145,8 +250,15 @@ public class SketchPad extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton circleRadio;
     private javax.swing.JButton clearScreenButton;
+    private javax.swing.JRadioButton closedRectangleRadio;
+    private javax.swing.JRadioButton filledRectangleRadio;
+    private javax.swing.JRadioButton freehandRadio;
+    private javax.swing.JPanel itemPicker;
+    private javax.swing.JRadioButton lineRadio;
     private foo.SketchPanel mySketchPanel;
     private javax.swing.JButton setPenColorButton;
+    private javax.swing.JRadioButton starRadio;
     // End of variables declaration//GEN-END:variables
 }
